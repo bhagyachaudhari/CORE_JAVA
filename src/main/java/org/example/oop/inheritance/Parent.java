@@ -9,4 +9,8 @@ public class Parent {
     public void working() throws RuntimeException{
         System.out.println("Parent working...");
     }
+
+    public int area(int r){
+        return r * r;
+    }
 }

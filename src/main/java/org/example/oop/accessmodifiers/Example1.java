@@ -1,4 +1,3 @@
-/*
 package org.example.oop.accessmodifiers;
 
 class Example1 {
@@ -7,9 +6,8 @@ class Example1 {
     }
 }
 class Child extends Example1 {
-    static void show() {  // This is NOT overriding, but hiding
+    /*static void show() {  // This is NOT overriding, but hiding
         System.out.println("Child Static Method");
-    }
+    }*/
 }
 
-*/
