@@ -10,4 +10,6 @@ public interface MyInterface {
     static void display() {
         System.out.println("Static method");
     }
+
+    //public abstract void  get();
 }
