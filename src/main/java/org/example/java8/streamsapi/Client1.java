@@ -114,6 +114,84 @@ public class Client1 {
         List<Integer> list1 = Arrays.stream(arr).boxed()
                 .collect(Collectors.toList());
         System.out.println(list1);
+
+
+        // Practice..
+
+        Map<String, List<FullTimeEmployee>> map = fullTimeEmployees.stream().collect(
+                Collectors.groupingBy(
+                        FullTimeEmployee::getDepartment,
+                        Collectors.toList()
+                ));
+
+        map.forEach((k, v)-> System.out.println(k + ": " + v.stream().map(emp->emp.getName()).collect(Collectors.toList())));
+        map.forEach((k, v)-> System.out.println(k + ": " + v.stream().map(emp->emp.getName()).collect(Collectors.joining(","))));
+
+        Map<String, Double> map1 = fullTimeEmployees.stream().collect(
+                Collectors.groupingBy(
+                        FullTimeEmployee::getDepartment,
+                        Collectors.averagingDouble(FullTimeEmployee::getSalary)
+                ));
+
+        map1.forEach((k, v)-> System.out.println(k + ": " + v));
+
+        Map<String, Double> map2 = fullTimeEmployees.stream().collect(
+                Collectors.groupingBy(
+                        FullTimeEmployee::getDepartment,
+                        Collectors.summingDouble(FullTimeEmployee::getSalary)
+                ));
+
+        map2.forEach((k, v)-> System.out.println(k + ": " + v));
+
+        Map<String, Long> map3 = fullTimeEmployees.stream().collect(
+                Collectors.groupingBy(
+                        FullTimeEmployee::getDepartment,
+                        Collectors.counting()
+                ));
+
+        map3.forEach((k, v)-> System.out.println(k + ": " + v));
+
+        Map<String, List<Double>> map4 = fullTimeEmployees.stream().collect(
+                Collectors.groupingBy(
+                        FullTimeEmployee::getDepartment,
+                        Collectors.mapping(FullTimeEmployee::getSalary, Collectors.toList())
+                ));
+
+        map4.forEach((k, v)-> System.out.println(k + ": " + v));
+
+        Map<String, List<Double>> map5 = fullTimeEmployees.stream().collect(
+                Collectors.groupingBy(
+                        FullTimeEmployee::getDepartment,
+                        Collectors.mapping(FullTimeEmployee::getSalary, Collectors.toList())
+                ));
+
+        map5.forEach((k, v)-> System.out.println(k + ": " + v));
+
+        Map<String, Double> map6 = fullTimeEmployees.stream().collect(
+                Collectors.groupingBy(
+                        FullTimeEmployee::getDepartment,
+                        Collectors.reducing(0.0, FullTimeEmployee::getSalary, Double::sum)
+                ));
+
+        map6.forEach((k, v)-> System.out.println(k + ": " + v));
+
+        Map<String, String> map7 = fullTimeEmployees.stream().collect(
+                Collectors.groupingBy(
+                        FullTimeEmployee::getDepartment,
+                        Collectors.reducing("", FullTimeEmployee::getName, String::concat)
+                ));
+
+        map7.forEach((k, v)-> System.out.println(k + ": " + v));
+
+        System.out.println(fullTimeEmployees.stream().map(FullTimeEmployee::getName)
+                .collect(Collectors.reducing((e1,e2) ->e1 + ", " + e2)).orElse(null));
+
+        Map<Boolean, List<FullTimeEmployee>> map8 = fullTimeEmployees.stream().collect(Collectors.partitioningBy(
+           e -> e.getSalary() > 60000, Collectors.toList()
+        ));
+
+        map8.forEach((k, v)-> System.out.println(k + ": " + v.stream().map(FullTimeEmployee::getName).collect(Collectors.toList())));
+
     }
 }
 
@@ -137,6 +215,18 @@ class FullTimeEmployee {
         this.name = name;
         this.salary = salary;
         this.department = department;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public String getDepartment() {
+        return department;
     }
 }
 
