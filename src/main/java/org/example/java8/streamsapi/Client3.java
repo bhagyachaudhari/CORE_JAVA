@@ -1,9 +1,6 @@
 package org.example.java8.streamsapi;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -102,6 +99,110 @@ public class Client3 {
 
         Map<String, Integer> map3 = people.stream().collect(Collectors.groupingBy(Person::getCity, Collectors.summingInt(Person::getAge)));
         map3.forEach(((str1, str2) -> System.out.println(str1 + ": " + str2)));
+
+        Map<String, Map<Integer, List<Person>>> cityThenAge = people.stream()
+                .collect(Collectors.groupingBy(
+                        Person::getCity,
+                        Collectors.groupingBy(Person::getAge)
+                ));
+
+        cityThenAge.forEach((city, m) -> {
+            System.out.println(city + " -> " + m);
+        });
+
+
+        Map<Boolean, List<Person>> partitioned = people.stream()
+                .collect(Collectors.partitioningBy(p -> p.getAge() >= 30));
+
+        partitioned.forEach((isAdult, l) -> {
+            System.out.println(isAdult + " -> " + l);
+        });
+
+
+        Map<Boolean, Long> countPartition = people.stream()
+                .collect(Collectors.partitioningBy(
+                        p -> p.getAge() >= 30,
+                        Collectors.counting()
+                ));
+
+        countPartition.forEach((isAdult, count1) -> System.out.println(isAdult + " -> " + count1));
+
+        Map<Boolean, List<String>> namesPartition = people.stream()
+                .collect(Collectors.partitioningBy(
+                        p -> p.getAge() >= 30,
+                        Collectors.mapping(Person::getName, Collectors.toList())
+                ));
+
+        namesPartition.forEach((isAdult, names1) -> System.out.println(isAdult + " -> " + names1));
+
+        Map<Boolean, Optional<Person>> oldestInPartition = people.stream()
+                .collect(Collectors.partitioningBy(
+                        p -> p.getAge() >= 30,
+                        Collectors.maxBy(Comparator.comparingInt(Person::getAge))
+                ));
+
+        oldestInPartition.forEach((isAdult, person) -> System.out.println(isAdult + " -> " + person));
+
+
+        List<String> words = Arrays.asList("Java", "is", "fun");
+        String result1 = words.stream()
+                .collect(Collectors.joining());
+        System.out.println(result1); // "Javaisfun"
+        System.out.println(words.stream()
+                .collect(Collectors.joining(" "))); // "Javaisfun"
+        System.out.println(words.stream()
+                .collect(Collectors.joining("-","[","]"))); // "Javaisfun"
+
+        String str = "testing is in progress";
+        System.out.println(Stream.of(str).collect(Collectors.toList()));
+        List<String> words1 = Arrays.stream(str.split(" "))
+                .collect(Collectors.toList());
+        System.out.println(words);
+
+        double averageAge = people.stream()
+                .collect(Collectors.averagingInt(Person::getAge));
+        System.out.println(averageAge);
+
+        double averageAge1 = people.stream()
+                .mapToInt(Person::getAge)
+                .average()
+                .orElse(0.0);
+        System.out.println(averageAge1);
+
+        Map<Integer, Double> avgByNameLength = people.stream()
+                .collect(Collectors.groupingBy(
+                        p -> p.name.length(),
+                        Collectors.averagingInt(Person::getAge)
+                ));
+
+        avgByNameLength.forEach((len, avg) -> System.out.println(len + " -> " + avg));
+
+
+        Optional<Integer> totalAge = people.stream()
+                .collect(Collectors.reducing(
+                        (p1, p2) -> new Person("", p1.getAge() + p2.getAge(), "")
+                ))
+                .map(Person::getAge);
+
+        totalAge.ifPresent(System.out::println);
+
+        int totalAge1 = people.stream()
+                .collect(Collectors.reducing(
+                        0,
+                        Person::getAge,
+                        Integer::sum
+                ));
+
+        System.out.println(totalAge1);
+
+
+        Stream<String> stream = Stream.<String>builder()
+                .add("a")
+                .add("b")
+                .add("c")
+                .build();
+        System.out.println(stream.collect(Collectors.toList()));
+
     }
 }
 
