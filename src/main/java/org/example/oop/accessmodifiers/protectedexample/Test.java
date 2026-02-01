@@ -1,3 +1,3 @@
 package org.example.oop.accessmodifiers.protectedexample;
 
-//protected class Test { }  // ❌ Compilation error
+//protected class my.practice.interview.Test { }  // ❌ Compilation error

@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class Client {
+public class Client implements A {
 
     public static void main(String[] args) throws IOException {
         Stream.of(1, 2, 3, 4, 5)
@@ -28,13 +28,45 @@ public class Client {
                 () -> System.out.println("Empty")
         );
 
-        BufferedReader br = new BufferedReader(new FileReader("file.txt"));
+        /*BufferedReader br = new BufferedReader(new FileReader("file.txt"));
         try (br) {
             // use br
-        }
+        }*/
 
         List<String> list = List.of("a", "b", "c");
+        //list.add("1");
+        System.out.println(list);
         Set<Integer> set = Set.of(1, 2, 3);
         Map<String, Integer> map = Map.of("a", 1, "b", 2);
+
+        A.hello();
+
+    }
+
+    @Override
+    public void methodB() {
+
+    }
+
+    @Override
+    public void methodA() {
+        A.super.methodA();
+    }
+}
+
+interface A {
+
+    private void display() {
+        System.out.println("private method..");
+    }
+
+    public void methodB();
+
+    default void methodA() {
+        display();
+    }
+
+    public static void  hello() {
+        System.out.println("hello static method..");
     }
 }
