@@ -2,6 +2,7 @@ package org.example;
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Test5 {
@@ -14,7 +15,7 @@ public class Test5 {
         System.out.println(list.stream().filter(s -> !set.add(s)).collect(Collectors.toList()));
 
         Map<String, Long> map = list.stream().collect(Collectors.groupingBy(
-                String::intern,
+                Function.identity(),
                 Collectors.counting()
         ));
 

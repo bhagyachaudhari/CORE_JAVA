@@ -1,6 +1,7 @@
 package my.practice;
 
 public abstract class Animal {
+    public static String type = "Pet";
 
     public Animal() {
         System.out.println("constructor..");
@@ -17,11 +18,17 @@ public abstract class Animal {
 
 class Cat extends Animal {
 
+    public Cat(){
+        super();
+        //this();
+    }
+
     public int count() {
         return 11;
     }
 
     int callParent() {
+        System.out.println(super.type);
         return super.count();
     }
 

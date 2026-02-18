@@ -6,7 +6,6 @@ public class PhonePay {
     BankAPI bankAPI;
 
 
-    // old code
     public PhonePay(BankAPI bankAPI){
         this.bankAPI = bankAPI;
     }
